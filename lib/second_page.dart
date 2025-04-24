@@ -1,11 +1,12 @@
+import 'package:app_1/ProfilPage.dart';
 import 'package:flutter/material.dart';
 
-class SecondPage extends StatefulWidget {
+class AcceuillPage extends StatefulWidget {
   @override
   _SecondPageState createState() => _SecondPageState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _SecondPageState extends State<AcceuillPage> {
   final TextEditingController _nomController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   String _genre = 'Homme';
@@ -18,9 +19,9 @@ class _SecondPageState extends State<SecondPage> {
   bool _notifications = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: Text('الصفحة الثانية'), backgroundColor: Colors.amberAccent),
+      appBar: AppBar(title: Text('Acceuil'), backgroundColor: Colors.yellow),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
     child:SingleChildScrollView(
@@ -33,8 +34,16 @@ class _SecondPageState extends State<SecondPage> {
               controller: _nomController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Votre nom',
+                hintText: 'Votre nom'
               ),
+
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Simo",style: TextStyle(color: Colors.red,fontSize: 20),),
+                Text("Prof",style: TextStyle(color: Colors.red,fontSize: 20),),
+              ],
             ),
             SizedBox(height: 16),
             Text('Entrez votre âge :', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -43,13 +52,13 @@ class _SecondPageState extends State<SecondPage> {
               controller: _ageController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Votre âge',
+                hintText: 'Votre âge'
               ),
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.number
             ),
             SizedBox(height: 24),
             Text('Genre :', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            Row(
+           Row(
               children: [
                 Radio<String>(
                   value: 'Homme',
@@ -97,7 +106,7 @@ class _SecondPageState extends State<SecondPage> {
                   _design = value!;
                 });
               },
-              controlAffinity: ListTileControlAffinity.leading,
+
             ),
             CheckboxListTile(
               title: Text('Jeux vidéo'),
@@ -122,7 +131,9 @@ class _SecondPageState extends State<SecondPage> {
                 ElevatedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('Sélectionner'),
+
                 ),
+                Icon(Icons.star, size: 50, color: Colors.yellow),
               ],
             ),
             SizedBox(height: 16),
@@ -133,13 +144,13 @@ class _SecondPageState extends State<SecondPage> {
             Row(
               children: [
                 Text('Débutant'),
-                Expanded(
+                Expanded(//Expanded كتخلي Slider ياخذ أكبر مساحة ممكنة بين النص الأول (Débutant) والنص الثاني (Expert).
                   child: Slider(
                     value: _competenceLevel,
                     min: 1.0,
                     max: 5.0,
                     divisions: 4,
-                    label: _competenceLevel.round().toString(),
+                    label: _competenceLevel.toString(),
                     onChanged: (double value) {
                       setState(() {
                         _competenceLevel = value;
@@ -202,7 +213,7 @@ class _SecondPageState extends State<SecondPage> {
               },
               child: Text('Valider le formulaire'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15)//EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15)
               ),
             ),
             Row(
@@ -232,10 +243,28 @@ class _SecondPageState extends State<SecondPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Bonjour $nom, vous avez $age ans.'),
+                      action: SnackBarAction(
+                        label: 'Voir info',
+                        onPressed: () {
+                          // هنا تدير واش بغيتي يدير ملي يضغط على الزر
+                          // مثلا الانتقال لصفحة أخرى أو عرض Dialog
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Profilpage(
+                                nom:_nomController.text,
+                                age:_ageController.text,
+                              ),
+                            ),
+                          );
+                        },
+                        textColor: Colors.blue, // اختياري: تغيير لون الزر
+                      ),
                     ),
                   );
+
                 },
-                child: Text('Valider'),
+                child: Text('Valider',style: TextStyle(color: Colors.yellow),),
               ),
             ),
           ],
